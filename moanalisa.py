@@ -26,14 +26,13 @@ def play_sound(file_path):
         print(f"The command has finished with an error code: {process.returncode}")
 
 def main():
-    global lastButtonState  # Declare lastButtonState as global
+    global lastButtonState = 0  # Declare lastButtonState as global
     while True:  # Run forever
         buttonState = GPIO.input(inputButtonPin)
         if buttonState == GPIO.HIGH and buttonState != lastButtonState:
             print("Button was pushed!")
             play_sound("Moaning.mp3")
             lastButtonState = buttonState
-            main()
 
 if __name__ == "__main__":
     main()
