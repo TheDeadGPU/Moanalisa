@@ -26,6 +26,7 @@ def play_sound(file_path):
         print(f"The command has finished with an error code: {process.returncode}")
 
 def main():
+    global lastButtonState  # Declare lastButtonState as global
     while True:  # Run forever
         buttonState = GPIO.input(inputButtonPin)
         if buttonState == GPIO.HIGH and buttonState != lastButtonState:
