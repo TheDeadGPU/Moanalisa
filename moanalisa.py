@@ -25,12 +25,13 @@ def play_sound(file_path):
     else:
         print(f"The command has finished with an error code: {process.returncode}")
 
-#Program Loop
-while True: # Run forever
-    buttonState = GPIO.input(inputButtonPin)
-    if(buttonState == GPIO.HIGH) and (buttonState != lastButtonState):
-        print("Button was pushed!")
-        #os.system("mpg321 Moaning.mp3 &")
-        play_sound("Moaning.mp3")
-        lastButtonState = buttonState
+def main():
+    while True: # Run forever
+        buttonState = GPIO.input(inputButtonPin)
+        if(buttonState == GPIO.HIGH) and (buttonState != lastButtonState):
+            print("Button was pushed!")
+            #os.system("mpg321 Moaning.mp3 &")
+            play_sound("Moaning.mp3")
+            lastButtonState = buttonState
+            main()
 
