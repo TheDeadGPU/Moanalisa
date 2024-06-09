@@ -34,4 +34,5 @@ def main():
             play_sound("Moaning.mp3")
             lastButtonState = buttonState
             main()
+main()
 
