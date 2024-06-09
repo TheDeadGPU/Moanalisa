@@ -33,6 +33,7 @@ def main():
             print("Button was pushed!")
             play_sound("Moaning.mp3")
             lastButtonState = buttonState
+            main()
 
 if __name__ == "__main__":
     main()
