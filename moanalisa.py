@@ -2,38 +2,34 @@ import RPi.GPIO as GPIO
 import os
 import subprocess
 
-# Variables
-inputButtonPin = 17
-lastButtonState = 0  # 0 = Not Pressed, 1 = Pressed
+# Constants
+BUTTON_PIN = 17
+BUTTON_STATE = 0  # 0 = Not Pressed, 1 = Pressed
 
 # GPIO Setup
 GPIO.setwarnings(False)  # Ignore warnings
 GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
-GPIO.setup(inputButtonPin, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Set the button pin to be an input pin and set initial value to be pulled low
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Set the button pin to be an input pin and set initial value to be pulled low
 
-# Function that plays the moaning sound
+# Function to play a sound file
 def play_sound(file_path):
-    # Run the command in the background
     process = subprocess.Popen(['mpg321', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
-    # Wait for the process to finish
     process.wait()
-
-    # Check if the process has finished
     if process.returncode == 0:
         print("The command has finished successfully.")
     else:
         print(f"The command has finished with an error code: {process.returncode}")
 
 def main():
-    global lastButtonState # Declare lastButtonState as global
-    lastButtonState = 0 
+    global BUTTON_STATE
+    BUTTON_STATE = BUTTON_STATE
+
     while True:  # Run forever
-        buttonState = GPIO.input(inputButtonPin)
-        if buttonState == GPIO.HIGH and buttonState != lastButtonState:
+        button_state = GPIO.input(BUTTON_PIN)
+        if button_state == GPIO.HIGH and button_state != BUTTON_STATE:
             print("Button was pushed!")
             play_sound("Moaning.mp3")
-            lastButtonState = buttonState
+            BUTTON_STATE = button_state
 
 if __name__ == "__main__":
     main()
