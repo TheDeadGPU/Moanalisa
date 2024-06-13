@@ -15,7 +15,7 @@ GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
 def play_sound(file_path):
     global TRIGGER_STATE
     TRIGGER_STATE = TRIGGER_STATE
-    process = subprocess.Popen(['mpg321', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['mpg321', file_path])
     process.wait()
     if process.returncode == 0:
         print("The command has finished successfully.")
