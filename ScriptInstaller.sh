@@ -5,6 +5,7 @@ INSTALLDIRECTORY="/bootscripts"
 SERVICE_CONTENTS="[Unit]
 Description=Moanalisa Moan Service
 After=multi-user.target
+User=pi
 
 [Service]
 Type=idle
