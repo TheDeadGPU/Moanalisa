@@ -33,6 +33,7 @@ fi
 
 # Copy the moanalisa.py and dependencies scripts to the install location
 cp "$BASEDIR/moanalisa.py" "$INSTALLDIRECTORY/moanalisa.py"
+cp "$BASEDIR/Moaning.mp3" "$INSTALLDIRECTORY/Moaning.mp3"
 
 # Create the Moanalisa Systemd Service
 sudo echo "$SERVICE_CONTENTS" > /lib/systemd/system/Moanalisa.service
