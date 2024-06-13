@@ -1,35 +1,50 @@
 import RPi.GPIO as GPIO
 import os
 import subprocess
+import time
 
 # Constants
-BUTTON_PIN = 17
-BUTTON_STATE = 0  # 0 = Not Pressed, 1 = Pressed
+PHOTORESISTOR_PIN = 26
+TRIGGER_STATE = 0  # 0 = Not Triggered, 1 = Triggered
 
 # GPIO Setup
 GPIO.setwarnings(False)  # Ignore warnings
 GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)  # Set the button pin to be an input pin and set initial value to be pulled low
 
 # Function to play a sound file
 def play_sound(file_path):
+    global TRIGGER_STATE
+    TRIGGER_STATE = TRIGGER_STATE
     process = subprocess.Popen(['mpg321', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     process.wait()
     if process.returncode == 0:
         print("The command has finished successfully.")
     else:
         print(f"The command has finished with an error code: {process.returncode}")
+    TRIGGER_STATE = 0
+    
 
 def main():
-    global BUTTON_STATE
-    BUTTON_STATE = BUTTON_STATE
+    global TRIGGER_STATE
+    TRIGGER_STATE = TRIGGER_STATE
+    global PHOTORESISTOR_PIN
+    PHOTORESISTOR_PIN = PHOTORESISTOR_PIN
 
     while True:  # Run forever
-        button_state = GPIO.input(BUTTON_PIN)
-        if button_state == GPIO.HIGH and button_state != BUTTON_STATE:
-            print("Button was pushed!")
+        #Compute the amout of time it takes our 1 uF capacitor to charge through the photo resistor
+        GPIO.setup(PHOTORESISTOR_PIN, GPIO.OUT)
+        GPIO.output(PHOTORESISTOR_PIN, GPIO.LOW)
+        time.sleep(0.1)
+        GPIO.setup(PHOTORESISTOR_PIN, GPIO.IN)
+        currentTime = time.time()
+        differenceTime = 0
+
+        while(GPIO.input(PHOTORESISTOR_PIN) == GPIO.LOW):
+            differenceTime = (time.time() - currentTime) * 1000
+        if(differenceTime < 10 and TRIGGER_STATE !=  1):
+            print("MOANING!")
             play_sound("Moaning.mp3")
-            BUTTON_STATE = button_state
+            TRIGGER_STATE = 1
 
 if __name__ == "__main__":
     main()
