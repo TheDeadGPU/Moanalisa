@@ -23,6 +23,7 @@ def play_sound(file_path):
     else:
         print(f"The command has finished with an error code: {process.returncode}")
     TRIGGER_STATE = 0
+    main()
     
 
 def main():
