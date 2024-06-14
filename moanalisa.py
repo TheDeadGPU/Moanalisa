@@ -12,9 +12,9 @@ TRIGGER_STATE = 0  # 0 = Not Triggered, 1 = Triggered
 GPIO.setwarnings(False)  # Ignore warnings
 GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
 
-Print("Program Started")
-Print("Working Directory is " + Path.cwd())
-Print("Audio File Path is " + Path.cwd() + "/Moaning.mp3")
+print("Program Started")
+print("Working Directory is " + Path.cwd())
+print("Audio File Path is " + Path.cwd() + "/Moaning.mp3")
 
 # Function to play a sound file
 def play_sound(file_path):
