@@ -7,6 +7,7 @@ Description=Moanalisa Moan Service
 [Service]
 Type=simple
 TimeoutStartSec=0
+WorkingDirectory=$INSTALLDIRECTORY
 ExecStart=/usr/bin/python $INSTALLDIRECTORY/moanalisa.py
 
 [Install]
