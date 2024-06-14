@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import os
 import subprocess
 import time
+from pathlib import Path
 
 # Constants
 PHOTORESISTOR_PIN = 26
@@ -29,6 +30,7 @@ def main():
     TRIGGER_STATE = TRIGGER_STATE
     global PHOTORESISTOR_PIN
     PHOTORESISTOR_PIN = PHOTORESISTOR_PIN
+    print(Path.cwd())
 
     while True:  # Run forever
         #Compute the amout of time it takes our 1 uF capacitor to charge through the photo resistor
@@ -43,7 +45,7 @@ def main():
             differenceTime = (time.time() - currentTime) * 1000
         if(differenceTime < 10 and TRIGGER_STATE !=  1):
             print("MOANING!")
-            play_sound("Moaning.mp3")
+            play_sound((Path.cwd() + "/Moaning.mp3"))
             TRIGGER_STATE = 1
 
 if __name__ == "__main__":
