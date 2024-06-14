@@ -13,8 +13,8 @@ GPIO.setwarnings(False)  # Ignore warnings
 GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
 
 print("Program Started")
-print("Working Directory is " + Path.cwd())
-print("Audio File Path is " + Path.cwd() + "/Moaning.mp3")
+print("Working Directory is " + str(Path.cwd()))
+print("Audio File Path is " + str(Path.cwd()) + "/Moaning.mp3")
 
 # Function to play a sound file
 def play_sound(file_path):
@@ -35,7 +35,6 @@ def main():
     TRIGGER_STATE = TRIGGER_STATE
     global PHOTORESISTOR_PIN
     PHOTORESISTOR_PIN = PHOTORESISTOR_PIN
-    print(Path.cwd())
 
     while True:  # Run forever
         #Compute the amout of time it takes our 1 uF capacitor to charge through the photo resistor
@@ -50,7 +49,7 @@ def main():
             differenceTime = (time.time() - currentTime) * 1000
         if(differenceTime < 10 and TRIGGER_STATE !=  1):
             print("MOANING!")
-            play_sound((Path.cwd() + "/Moaning.mp3"))
+            play_sound((str(Path.cwd()) + "/Moaning.mp3"))
             TRIGGER_STATE = 1
 
 if __name__ == "__main__":
