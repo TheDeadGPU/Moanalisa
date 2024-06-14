@@ -1,24 +1,16 @@
 #!/bin/bash
 
 # Variables
-INSTALLDIRECTORY="/bootscripts"
+INSTALLDIRECTORY="/home/pi/bootscripts"
 SERVICE_CONTENTS="[Unit]
 Description=Moanalisa Moan Service
-After=multi-user.target
-User=pi
-
 [Service]
-Type=idle
+Type=simple
+TimeoutStartSec=0
 ExecStart=/usr/bin/python $INSTALLDIRECTORY/moanalisa.py
 
 [Install]
-WantedBy=multi-user.target"
-
-# Check to see if we are running as Root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
+WantedBy=default.target"
 
 # Find the directory where the install script lives
 BASEDIR=$(dirname "$0")
@@ -37,9 +29,9 @@ cp "$BASEDIR/moanalisa.py" "$INSTALLDIRECTORY/moanalisa.py"
 cp "$BASEDIR/Moaning.mp3" "$INSTALLDIRECTORY/Moaning.mp3"
 
 # Create the Moanalisa Systemd Service
-sudo echo "$SERVICE_CONTENTS" > /lib/systemd/system/Moanalisa.service
-sudo chmod 644 /lib/systemd/system/Moanalisa.service
-sudo systemctl daemon-reload
-sudo systemctl enable Moanalisa
-sudo service Moanalisa start
+echo "$SERVICE_CONTENTS" > /home/pi/.local/share/systemd/user/Moanalisa.service
+chmod 644 /home/pi/.local/share/systemd/user/Moanalisa.service
+systemctl --user enable /home/pi/.local/share/systemd/user/Moanalisa.service
+systemctl --user start Moanalisa.service
+systemctl --user status Moanalisa.service
 echo "Moanalisa Service Installed!"
