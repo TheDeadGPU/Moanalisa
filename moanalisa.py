@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import os
 import subprocess
 import time
+from pathlib import Path
 
 # Constants
 PHOTORESISTOR_PIN = 26
@@ -11,17 +12,22 @@ TRIGGER_STATE = 0  # 0 = Not Triggered, 1 = Triggered
 GPIO.setwarnings(False)  # Ignore warnings
 GPIO.setmode(GPIO.BCM)  # Use GPIO Numbering
 
+print("Program Started")
+print("Working Directory is " + str(Path.cwd()))
+print("Audio File Path is " + str(Path.cwd()) + "/Moaning.mp3")
+
 # Function to play a sound file
 def play_sound(file_path):
     global TRIGGER_STATE
     TRIGGER_STATE = TRIGGER_STATE
-    process = subprocess.Popen(['mpg321', file_path], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(['mpg321', file_path])
     process.wait()
     if process.returncode == 0:
         print("The command has finished successfully.")
     else:
         print(f"The command has finished with an error code: {process.returncode}")
     TRIGGER_STATE = 0
+    main()
     
 
 def main():
@@ -43,7 +49,7 @@ def main():
             differenceTime = (time.time() - currentTime) * 1000
         if(differenceTime < 10 and TRIGGER_STATE !=  1):
             print("MOANING!")
-            play_sound("Moaning.mp3")
+            play_sound((str(Path.cwd()) + "/Moaning.mp3"))
             TRIGGER_STATE = 1
 
 if __name__ == "__main__":
